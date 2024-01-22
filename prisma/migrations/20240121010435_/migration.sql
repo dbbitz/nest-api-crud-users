@@ -1,0 +1,7 @@
+-- AlterTable
+CREATE SEQUENCE users_id_seq;
+ALTER TABLE "users" ALTER COLUMN "id" SET DEFAULT nextval('users_id_seq'),
+ALTER COLUMN "createdAt" SET DEFAULT CURRENT_TIMESTAMP,
+ALTER COLUMN "createdAt" SET DATA TYPE TIMESTAMP(3),
+ALTER COLUMN "updatedAt" SET DATA TYPE TIMESTAMP(3);
+ALTER SEQUENCE users_id_seq OWNED BY "users"."id";
