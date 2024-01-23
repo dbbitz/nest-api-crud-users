@@ -3,38 +3,17 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserService } from './user.service';
 import { userEntityList } from '../testing/user-entity-list.mock';
-import { PrismaService } from '../prisma/prisma.service';
 import { createUserDto } from '../testing/create-user-dto.mock';
 import { updatePutUserDto } from '../testing/update-put-user-dto.mock';
 import { updatePatchUserDto } from '../testing/update-patch-user-dto.mock';
+import { userRepositoryMock } from '../testing/user-repository.mock';
 
 describe('Users', () => {
     let userService: UserService;
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
-            providers: [
-                UserService,
-                {
-                    provide: PrismaService,
-                    useValue: {
-                        user: {
-                            count: jest.fn().mockResolvedValue(true),
-                            create: jest
-                                .fn()
-                                .mockResolvedValue(userEntityList[0]),
-                            find: jest.fn().mockResolvedValue(userEntityList),
-                            findUnique: jest
-                                .fn()
-                                .mockResolvedValue(userEntityList[0]),
-                            update: jest
-                                .fn()
-                                .mockResolvedValue(userEntityList[0]),
-                            delete: jest.fn().mockResolvedValue(true),
-                        },
-                    },
-                },
-            ],
+            providers: [UserService, userRepositoryMock],
         }).compile();
 
         userService = module.get<UserService>(UserService);
