@@ -15,12 +15,12 @@ import { CreateUserDTO } from './dto/create-user.dto';
 import { UpdatePutUserDto } from './dto/update-put-user.dto';
 import { UpdatePatchUserDto } from './dto/update-patch-user.dto';
 import { UserService } from './user.service';
-import { ParamId } from 'src/decorators/param-id.decorator';
-import { Roles } from 'src/decorators/role.decorator';
-import { Role } from 'src/enums/role.enum';
-import { RoleGuard } from 'src/guards/role.guard';
-import { LogInterceptor } from 'src/interceptors/log.interceptor';
-import { AuthGuard } from 'src/guards/auth.guard';
+import { ParamId } from '../decorators/param-id.decorator';
+import { Roles } from '../decorators/role.decorator';
+import { Role } from '../enums/role.enum';
+import { RoleGuard } from '../guards/role.guard';
+import { LogInterceptor } from '../interceptors/log.interceptor';
+import { AuthGuard } from '../guards/auth.guard';
 import * as bcrypt from 'bcrypt';
 
 @Roles(Role.Admin)

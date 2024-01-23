@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDTO } from './dto/create-user.dto';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 import { UpdatePutUserDto } from './dto/update-put-user.dto';
 import { UpdatePatchUserDto } from './dto/update-patch-user.dto';
 import * as bcrypt from 'bcrypt';
@@ -68,9 +68,10 @@ export class UserService {
     }
 
     async delete(id: number) {
-        return this.prisma.user.delete({
+        await this.prisma.user.delete({
             where: { id },
         });
+        return true;
     }
 
     async exists(id: number) {

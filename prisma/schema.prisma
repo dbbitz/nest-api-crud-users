@@ -14,8 +14,8 @@ model User {
     birthAt   DateTime? @db.Date
     role      Int       @default(1)
     email     String    @db.VarChar(255)
-    createdAt DateTime  @default(now())
-    updatedAt DateTime  @updatedAt
+    createdAt DateTime? @default(now())
+    updatedAt DateTime? @updatedAt
 
     @@map("users")
 }
