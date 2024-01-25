@@ -10,5 +10,6 @@ export const userServiceMock = {
         update: jest.fn().mockResolvedValue(userEntityList[0]),
         updatePartial: jest.fn().mockResolvedValue(userEntityList[0]),
         delete: jest.fn().mockResolvedValue(true),
+        exists: jest.fn().mockResolvedValue(1),
     },
 };
