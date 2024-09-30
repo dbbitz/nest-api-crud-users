@@ -1,5 +1,5 @@
 import { Role } from '../enums/role.enum';
-import { CreateUserDTO } from '../user/dto/create-user.dto';
+import { CreateUserDTO } from '../modules/user/dto/create-user.dto';
 
 export const createUserDto: CreateUserDTO = {
     email: 'user@email.com.br',

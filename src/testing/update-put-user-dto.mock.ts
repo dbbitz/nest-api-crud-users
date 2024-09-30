@@ -1,5 +1,5 @@
 import { Role } from '../enums/role.enum';
-import { UpdatePutUserDto } from '../user/dto/update-put-user.dto';
+import { UpdatePutUserDto } from '../modules/user/dto/update-put-user.dto';
 
 export const updatePutUserDto: UpdatePutUserDto = {
     email: 'user@email.com.br',

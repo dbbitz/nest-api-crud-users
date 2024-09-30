@@ -7,8 +7,18 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
+model Tenant {
+    id        String    @id @default(uuid())
+    name      String    @db.VarChar(255)
+    createdAt DateTime? @default(now())
+    updatedAt DateTime? @updatedAt
+    users     User[]
+
+    @@map("tenants")
+}
+
 model User {
-    id        Int       @id @default(autoincrement())
+    id        String    @id @default(uuid())
     name      String    @db.VarChar(255)
     password  String    @db.VarChar(255)
     birthAt   DateTime? @db.Date
@@ -16,6 +26,8 @@ model User {
     email     String    @db.VarChar(255)
     createdAt DateTime? @default(now())
     updatedAt DateTime? @updatedAt
+    tenant    Tenant    @relation(fields: [tenantId], references: [id])
+    tenantId  String    @db.VarChar(255)
 
     @@map("users")
 }

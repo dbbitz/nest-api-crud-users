@@ -5,7 +5,7 @@ import { Role } from '../enums/role.enum';
 
 export const userEntityList: User[] = [
     {
-        id: 1,
+        id: '1',
         name: 'User Test',
         email: 'user@test.com',
         password:
@@ -14,5 +14,6 @@ export const userEntityList: User[] = [
         role: Role.Admin,
         createdAt: new Date(),
         updatedAt: new Date(),
+        tenantId: '1',
     },
 ];
