@@ -32,7 +32,7 @@ export class AuthController {
     constructor(
         private readonly userService: UserService,
         private readonly authService: AuthService,
-        private readonly fileService: FileService,
+        private readonly fileService: FileService
     ) {}
 
     @Post('login')
@@ -72,9 +72,9 @@ export class AuthController {
                     new FileTypeValidator({ fileType: 'image/png' }),
                     new MaxFileSizeValidator({ maxSize: 1024 * 20 }),
                 ],
-            }),
+            })
         )
-        photo: Express.Multer.File,
+        photo: Express.Multer.File
     ) {
         const fileName = `photo_${user.id}`;
 
@@ -92,7 +92,7 @@ export class AuthController {
     @Post('files')
     async uploadFiles(
         @User() user,
-        @UploadedFiles() files: Express.Multer.File[],
+        @UploadedFiles() files: Express.Multer.File[]
     ) {
         return files;
     }
@@ -107,7 +107,7 @@ export class AuthController {
                 name: 'documents',
                 maxCount: 10,
             },
-        ]),
+        ])
     )
     @UseGuards(AuthGuard)
     @Post('files-fields')
@@ -117,7 +117,7 @@ export class AuthController {
         files: {
             photo: Express.Multer.File;
             documents: Express.Multer.File;
-        },
+        }
     ) {
         return files;
     }

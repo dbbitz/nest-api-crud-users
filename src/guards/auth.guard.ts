@@ -6,7 +6,7 @@ import { UserService } from '../modules/user/user.service';
 export class AuthGuard implements CanActivate {
     constructor(
         private readonly authService: AuthService,
-        private readonly userService: UserService,
+        private readonly userService: UserService
     ) {}
 
     async canActivate(context: ExecutionContext) {
@@ -15,12 +15,14 @@ export class AuthGuard implements CanActivate {
 
         try {
             const data = this.authService.checkToken(
-                (authorization ?? '').split(' ')[1],
+                (authorization ?? '').split(' ')[1]
             );
 
             request.tokenPayload = data;
 
             request.user = await this.userService.show(data.id);
+
+            console.log('request.user', request.user);
 
             return true;
         } catch (error) {

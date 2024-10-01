@@ -15,14 +15,7 @@ export class UserService {
         data.password = await bcrypt.hash(data.password, salt);
 
         return this.prisma.user.create({
-            data: {
-                ...data,
-                tenant: {
-                    connect: {
-                        id: '1',
-                    },
-                },
-            },
+            data,
         });
     }
 
@@ -41,7 +34,7 @@ export class UserService {
 
     async update(
         id: string,
-        { email, name, password, birthAt, role }: UpdatePutUserDto,
+        { email, name, password, roleId }: UpdatePutUserDto
     ) {
         return this.prisma.user.update({
             where: { id },
@@ -49,15 +42,16 @@ export class UserService {
                 email,
                 name,
                 password,
-                role,
-                birthAt: birthAt ? new Date(birthAt) : null,
+                roles: {
+                    connect: { id: roleId },
+                },
             },
         });
     }
 
     async updatePartial(
         id: string,
-        { email, name, password, birthAt, role }: UpdatePatchUserDto,
+        { email, name, password, birthAt, roleId }: UpdatePatchUserDto
     ) {
         const data: any = {};
         if (birthAt) {
@@ -66,7 +60,7 @@ export class UserService {
         if (email) data.email = email;
         if (name) data.name = name;
         if (password) data.password = password;
-        if (role) data.role = role;
+        if (roleId) data.roles = { connect: { id: roleId } };
 
         return this.prisma.user.update({
             where: { id },
@@ -89,5 +83,19 @@ export class UserService {
         ) {
             throw new NotFoundException(`O usuário ${id} não existe!`);
         }
+    }
+
+    async userRoles(id: string) {
+        const roles = await this.prisma.role.findMany({
+            where: {
+                users: {
+                    some: {
+                        id,
+                    },
+                },
+            },
+        });
+
+        return roles;
     }
 }

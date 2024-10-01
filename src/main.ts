@@ -1,8 +1,8 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
-import { LogInterceptor } from './interceptors/log.interceptor';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { AppModule } from './app.module';
+import { LogInterceptor } from './interceptors/log.interceptor';
 
 //Confiuração de webscokets, redis, openAPI para documentação
 

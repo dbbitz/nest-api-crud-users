@@ -50,7 +50,7 @@ export class UserController {
     @Put(':id')
     async update(
         @Body() data: UpdatePutUserDto,
-        @Param('id', ParseIntPipe) id: string,
+        @Param('id', ParseIntPipe) id: string
     ) {
         await this.userService.exists(id);
 
@@ -64,7 +64,7 @@ export class UserController {
     @Patch(':id')
     async updatePartial(
         @Body() data: UpdatePatchUserDto,
-        @Param('id', ParseIntPipe) id: string,
+        @Param('id', ParseIntPipe) id: string
     ) {
         await this.userService.exists(id);
         return this.userService.updatePartial(id, data);

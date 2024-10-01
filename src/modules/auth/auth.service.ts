@@ -20,7 +20,7 @@ export class AuthService {
         private readonly jwtService: JwtService,
         private readonly prisma: PrismaService,
         private readonly userService: UserService,
-        private readonly mailerService: MailerService,
+        private readonly mailerService: MailerService
     ) {}
 
     createToken(user: User) {
@@ -36,7 +36,7 @@ export class AuthService {
                     subject: String(user.id),
                     issuer: this.issuer,
                     audience: this.audience,
-                },
+                }
             ),
         };
     }
@@ -95,7 +95,7 @@ export class AuthService {
                 subject: String(user.id),
                 issuer: 'forget',
                 audience: this.audience,
-            },
+            }
         );
 
         await this.mailerService.sendMail({
@@ -139,7 +139,7 @@ export class AuthService {
     }
 
     async register(data: AuthRegisterDTO) {
-        delete data.role;
+        delete data.roleId;
 
         const user = await this.userService.create(data);
 
