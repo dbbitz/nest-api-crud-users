@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+    BadRequestException,
+    Injectable,
+    NotFoundException,
+} from '@nestjs/common';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { PrismaService } from '../../prisma/prisma.service';
 import { UpdatePutUserDto } from './dto/update-put-user.dto';
@@ -10,13 +14,42 @@ export class UserService {
     constructor(private prisma: PrismaService) {}
 
     async create(data: CreateUserDTO) {
-        const salt = await bcrypt.genSalt();
+        try {
+            const salt = await bcrypt.genSalt();
 
-        data.password = await bcrypt.hash(data.password, salt);
+            data.password = await bcrypt.hash(data.password, salt);
 
-        return this.prisma.user.create({
-            data,
-        });
+            const user = await this.prisma.user.create({
+                data: {
+                    name: data.name,
+                    email: data.email,
+                    password: data.password,
+                    tenantId: data.tenantId,
+                    roles: {
+                        connect: {
+                            code: 'user',
+                        },
+                    },
+                    userRoles: {
+                        create: {
+                            role: {
+                                connect: { code: 'user' },
+                            },
+                        },
+                    },
+                },
+            });
+
+            return user;
+        } catch (error) {
+            console.log(`Error creating user: ${error}`, error.stack);
+
+            if (error instanceof BadRequestException) {
+                throw error;
+            }
+
+            throw new Error('Failed to create user');
+        }
     }
 
     async list() {
@@ -34,7 +67,7 @@ export class UserService {
 
     async update(
         id: string,
-        { email, name, password, roleId }: UpdatePutUserDto
+        { email, name, password, role }: UpdatePutUserDto
     ) {
         return this.prisma.user.update({
             where: { id },
@@ -43,7 +76,7 @@ export class UserService {
                 name,
                 password,
                 roles: {
-                    connect: { id: roleId },
+                    connect: { id: role },
                 },
             },
         });
@@ -51,7 +84,7 @@ export class UserService {
 
     async updatePartial(
         id: string,
-        { email, name, password, birthAt, roleId }: UpdatePatchUserDto
+        { email, name, password, birthAt, role }: UpdatePatchUserDto
     ) {
         const data: any = {};
         if (birthAt) {
@@ -60,7 +93,7 @@ export class UserService {
         if (email) data.email = email;
         if (name) data.name = name;
         if (password) data.password = password;
-        if (roleId) data.roles = { connect: { id: roleId } };
+        if (role) data.roles = { connect: { id: role } };
 
         return this.prisma.user.update({
             where: { id },

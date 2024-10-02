@@ -22,8 +22,6 @@ export class AuthGuard implements CanActivate {
 
             request.user = await this.userService.show(data.id);
 
-            console.log('request.user', request.user);
-
             return true;
         } catch (error) {
             return false;

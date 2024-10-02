@@ -4,7 +4,7 @@ import { Observable, tap } from 'rxjs';
 export class LogInterceptor implements NestInterceptor {
     intercept(
         context: ExecutionContext,
-        next: CallHandler<any>,
+        next: CallHandler<any>
     ): Observable<any> {
         const dt = Date.now();
 
@@ -14,7 +14,7 @@ export class LogInterceptor implements NestInterceptor {
                 // console.log(`URL: ${request.url}`);
                 // console.log(`Method: ${request.method}`);
                 // console.log(`Execução levou: ${Date.now() - dt} milisegundos`);
-            }),
+            })
         );
     }
 }

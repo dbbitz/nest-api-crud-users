@@ -3,6 +3,7 @@ import {
     Body,
     Controller,
     FileTypeValidator,
+    Logger,
     MaxFileSizeValidator,
     ParseFilePipe,
     Post,
